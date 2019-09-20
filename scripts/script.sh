@@ -254,14 +254,16 @@ chaincodeInvoke () {
 	# while 'peer chaincode' command can get the orderer endpoint from the
 	# peer (if join was successful), let's supply it directly as we know
 	# it using the "-o" option
+	set -x
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
 		peer chaincode invoke -o orderer.example.com:7050 -C $CHANNEL_NAME -n mycc $PEER_CONN_PARMS -c '{"Args":["invoke","a","b","10"]}' >&log.txt
 	else
         peer chaincode invoke -o orderer.example.com:7050  --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc $PEER_CONN_PARMS -c '{"Args":["invoke","a","b","10"]}' >&log.txt
 	fi
+	set +x
 	res=$?
 	cat log.txt
-	verifyResult $res "Invoke execution on PEER$PEER failed "
+	verifyResult $res "Invoke execution on PEER $PEER failed "
 	echo "===================== Invoke transaction successful on $PEERS on channel '$CHANNEL_NAME' ===================== "
 	echo
 }
@@ -311,8 +313,8 @@ echo "Querying chaincode on peer1.org2..."
 chaincodeQuery 1 2 90
 
 #Query on chaincode on peer1.org3 with idemix MSP type, check if the result is 90
-#echo "Querying chaincode on peer1.org3..."
-#chaincodeQuery 1 3 90
+echo "Querying chaincode on peer1.org3..."
+chaincodeQuery 1 3 90
 
 echo
 echo "===================== All GOOD, End-2-End execution completed ===================== "

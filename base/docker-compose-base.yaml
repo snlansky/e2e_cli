@@ -26,9 +26,9 @@ services:
 
   orderer.example.com:
     container_name: orderer.example.com
-    image: hyperledger/fabric-orderer
+    image: hyperledger/fabric-orderer:1.4
     environment:
-      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_LOGLEVEL=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
@@ -39,11 +39,10 @@ services:
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-      - ORDERER_GENERAL_PROFILE_ENABLED=true
-      - ORDERER_GENERAL_PROFILE_ADDRESS=0.0.0.0:6060
       - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
       - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
       - ORDERER_KAFKA_VERBOSE=true
+      - GODEBUG=netdns=go
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
@@ -52,7 +51,6 @@ services:
     - ../crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/:/var/hyperledger/orderer/tls
     ports:
       - 7050:7050
-      - 6060:6060
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
@@ -74,7 +72,6 @@ services:
       - 7051:7051
       - 7052:7052
       - 7053:7053
-      - 7060:6060
 
   peer1.org1.example.com:
     container_name: peer1.org1.example.com
@@ -98,7 +95,6 @@ services:
       - 8051:7051
       - 8052:7052
       - 8053:7053
-      - 8060:6060
 
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
@@ -120,7 +116,6 @@ services:
       - 9051:7051
       - 9052:7052
       - 9053:7053
-      - 9060:6060
 
   peer1.org2.example.com:
     container_name: peer1.org2.example.com
@@ -143,4 +138,3 @@ services:
       - 10051:7051
       - 10052:7052
       - 10053:7053
-      - 10060:6060

@@ -38,28 +38,6 @@ function replacePrivateKey () {
         PRIV_KEY=$(ls *_sk)
         cd $CURRENT_DIR
         sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
-
-  cp caliper-network-template.json caliper-network.json
-  cp caliper-config-template.json caliper-config.json
-
-        CURRENT_DIR=$PWD
-        sed $OPTS "s#CURRENT_DIR#${CURRENT_DIR}#g" caliper-network.json
-        sed $OPTS "s#CURRENT_DIR#${CURRENT_DIR}#g" caliper-config.json
-
-        cd crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/keystore/
-        PRIV_KEY=$(ls *_sk)
-        cd $CURRENT_DIR
-        sed $OPTS "s/ORDERER_USER_KEY/${PRIV_KEY}/g" caliper-network.json
-
-        cd crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/
-        PRIV_KEY=$(ls *_sk)
-        cd $CURRENT_DIR
-        sed $OPTS "s/ORG1_USER_KEY/${PRIV_KEY}/g" caliper-network.json
-
-        cd crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/
-        PRIV_KEY=$(ls *_sk)
-        cd $CURRENT_DIR
-        sed $OPTS "s/ORG2_USER_KEY/${PRIV_KEY}/g" caliper-network.json
 }
 
 ## Generates Org certs using cryptogen tool

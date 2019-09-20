@@ -82,8 +82,7 @@ function networkDown () {
     removeUnwantedImages
 
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
-    rm caliper-config.json caliper-network.json
+#    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
 }
 
 validateArgs
